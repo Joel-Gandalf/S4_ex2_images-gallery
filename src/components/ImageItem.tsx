@@ -7,6 +7,6 @@ interface ImageItemProps {
 
 export const ImageItem = (props: ImageItemProps) => {
     return (
-        <img id={props.image.id} src={props.image.src} alt={props.image.alt} />
+        <img id={props.image.id} src={props.image.src} alt={props.image.alt} className={props.isFeatured ? 'featured' : ''}/>
     )
 }
