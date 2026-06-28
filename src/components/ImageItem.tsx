@@ -16,6 +16,6 @@ interface ImageItemProps {
 // JavaScript desestructura el objeto props automáticamente en el parámetro. El objeto sigue existiendo, simplemente no se ve.
 export const ImageItem = ({image, isFeatured}: ImageItemProps) => {
     return (
-        <img id={image.id} src={image.src} alt={image.alt} className={isFeatured ? 'featured' : ''}/>
+        <img id={image.id} src={image.src} alt={image.alt} className= {`w-full h-full ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}/>
     )
 }
