@@ -25,7 +25,10 @@ export const Gallery = () => {
     // images — el valor actual del estado (tu array de imágenes)
     // setImages — la función para actualizarlo
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-8">
+        <div role="region"
+            // role="region" indica que es una sección significativa de la página
+            aria-label="Galería de imágenes"
+            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-8">
             {/* {images.map((image) => (
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
