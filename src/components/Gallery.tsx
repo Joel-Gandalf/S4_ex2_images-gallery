@@ -14,6 +14,8 @@ const imagesList: Image[] = [
 ]
 
 export const Gallery = () => {
+    // La sintaxis función(param: Tipo) es para definir el tipo de un parámetro en una función que tú escribes. Pero cuando llamas a una función ya existente como useState, no puedes añadir tipos a sus parámetros.
+    // En cambio <Image[]> es cómo le dices a TypeScript el tipo del genérico — es la forma de parametrizar funciones genéricas ya definidas:
     const [images, setImages] = useState<Image[]>(imagesList);
     // Devuelve dos cosas:
     // images — el valor actual del estado (tu array de imágenes)
