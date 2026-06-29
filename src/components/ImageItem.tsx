@@ -19,7 +19,10 @@ export const ImageItem = ({image, isFeatured, onDelete}: ImageItemProps) => {
     return (
         <div className= {`w-full h-full ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
             <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} />
-            <button onClick={() => onDelete(image.id)}>Eliminar</button>
+            <button onClick={(event) => {
+                event.stopPropagation;
+                onDelete(image.id);
+            }}>Eliminar</button>
         </div>
     )
 }
