@@ -24,18 +24,24 @@ export const Gallery = () => {
     // Devuelve dos cosas:
     // images — el valor actual del estado (tu array de imágenes)
     // setImages — la función para actualizarlo
+    const handleDelete = (id: string) => {
+        if (window.confirm('¿Eliminar esta imagen?')) {
+            setImages(images.filter(img => img.id !== id));
+        }
+    }
     return (
-        <div role="region"
-            // role="region" indica que es una sección significativa de la página
+        // <div role="region"
+            // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.
+        <section
             aria-label="Galería de imágenes"
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-8">
+            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
             {/* {images.map((image) => (
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
             {images.map((image, index) => (
-                <ImageItem key={image.id} image={image} isFeatured={index === 0}></ImageItem>
+                <ImageItem key={image.id} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
             ))}
-        </div>
+        </section>
     )
 }
 
@@ -45,3 +51,9 @@ export const Gallery = () => {
 // tailwind aplica en cascada como css
 // px-: todo el eje x
 // py-: todo el eje y
+
+//  es una convención nombrar los callbacks con el PREFIJO  ON.
+
+// las props van de padre a hijo, de Gallery a ImageItem.
+// Lo que va de hijo a padre son los callbacks. Pero el callback en sí también es una prop — Gallery lo define y lo pasa a ImageItem como prop. ImageItem lo recibe y lo llama cuando el usuario hace click.
+// Es la forma que tiene React de comunicar hacia arriba — el hijo no sube datos directamente, sino que llama a una función que el padre le pasó.
