@@ -30,17 +30,18 @@ export const Gallery = () => {
         }
     }
     return (
-        <div role="region"
-            // role="region" indica que es una sección significativa de la página
+        // <div role="region"
+            // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.
+        <section
             aria-label="Galería de imágenes"
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-8">
+            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
             {/* {images.map((image) => (
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
             {images.map((image, index) => (
                 <ImageItem key={image.id} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
             ))}
-        </div>
+        </section>
     )
 }
 
