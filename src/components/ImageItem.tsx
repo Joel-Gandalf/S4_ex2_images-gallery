@@ -8,6 +8,8 @@ interface ImageItemProps {
     onDelete: (id: string) => void;
 }
 
+const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 border-none hover:bg-destructive/70 hover:text-white hover:shadow-[0_0_0_3px_rgba(220,38,38,0.25)] hover:cursor-pointer"
+
 // export const ImageItem = (props: ImageItemProps) => {
 //     return (
 //         <img id={props.image.id} src={props.image.src} alt={props.image.alt} className={props.isFeatured ? 'featured' : ''}/>
@@ -17,11 +19,12 @@ interface ImageItemProps {
 // React sigue pasando el objeto props internamente.
 // JavaScript desestructura el objeto props automáticamente en el parámetro. El objeto sigue existiendo, simplemente no se ve.
 export const ImageItem = ({ image, isFeatured, onDelete }: ImageItemProps) => {
+
     return (
         <figure className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
             <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className='w-full h-full' />
             <Button
-                className="absolute top-2 right-2 bg-white/60 text-red-800 border-none hover:bg-destructive/70 hover:text-white hover:shadow-[0_0_0_3px_rgba(220,38,38,0.25)] hover:cursor-pointer"
+                className={buttonDeleteStyles}
                 variant="destructive"
                 size="icon"
                 aria-label="Eliminar imagen"
