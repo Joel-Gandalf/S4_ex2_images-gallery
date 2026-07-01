@@ -1,11 +1,13 @@
 import type { Image } from "../types/image";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import { useSortable } from "@dnd-kit/react/sortable";
 
 interface ImageItemProps {
     image: Image;
     isFeatured: boolean;
     onDelete: (id: string) => void;
+    index: number;
 }
 
 const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 border-none hover:bg-destructive/70 hover:text-white hover:shadow-[0_0_0_3px_rgba(220,38,38,0.25)] hover:cursor-pointer"
@@ -18,10 +20,12 @@ const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 bord
 
 // React sigue pasando el objeto props internamente.
 // JavaScript desestructura el objeto props automáticamente en el parámetro. El objeto sigue existiendo, simplemente no se ve.
-export const ImageItem = ({ image, isFeatured, onDelete }: ImageItemProps) => {
+export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps) => {
+
+    const {ref} = useSortable({id: image.id, index})
 
     return (
-        <figure className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
+        <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
             <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className='w-full h-full' />
             <Button
                 className={buttonDeleteStyles}
