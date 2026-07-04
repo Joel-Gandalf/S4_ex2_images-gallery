@@ -3,12 +3,12 @@ import type { Image } from "../types/image";
 import { ImageItem } from "./ImageItem";
 
 import { DragDropProvider } from "@dnd-kit/react";
-import type {DragEndEvent} from "@dnd-kit/react";
-import { isSortable } from "@dnd-kit/react/sortable";
+import type { DragEndEvent, DragOverEvent } from "@dnd-kit/react";
+
+// import { isSortable } from "@dnd-kit/react/sortable";
 import { move } from "@dnd-kit/helpers";
 
-
-// import { target } from "lucide-react";
+import { useRef } from "react";
 
 
 const imagesList: Image[] = [
@@ -33,32 +33,63 @@ export const Gallery = () => {
     // Devuelve dos cosas:
     // images — el valor actual del estado (tu array de imágenes)
     // setImages — la función para actualizarlo
+    // const [savedImages, setSavedImages] = useState<Image[]>(imagesList);
+
     const handleDelete = (id: string) => {
         if (window.confirm('¿Eliminar esta imagen?')) {
             setImages(images.filter(img => img.id !== id));
         }
     }
 
-    const handleDragEnd = (event: DragEndEvent) => {
-        const {source, target} = event.operation;
+    const previousImages = useRef<Image[]>(imagesList);
 
-        if (!target || !isSortable(source) || !isSortable(target)){
-            return;
-        }
+    // const handleDragEnd = (event: DragEndEvent) => {
 
-        // setImages(images => move(images, event));
-        // setImages(move(images, source.index, target.index));
-        setImages(move(images, event));
-    }
+    //     if (event.canceled || !event.operation.target) {
+    //         setImages(savedImages);
+    //         return;
+    //     }
+
+    //     const { source, target } = event.operation;
+
+    //     if (!target || !isSortable(source) || !isSortable(target)) {
+    //         console.log('returning early - no valid target');
+    //         return;
+    //     }
+
+    // setImages(images => move(images, event));
+    // setImages(move(images, source.index, target.index));
+    //     setImages(move(images, event));
+    // }
 
     // const handleDragEnd = ({operation: {source, target}}: DragEndEvent) => {
 
     // }
 
+    const handleDragStart = () => {
+        previousImages.current = images;
+    };
+
+    const handleDragOver = (event: DragOverEvent) => {
+        setImages(images => move(images, event));
+    };
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        if (event.canceled || !event.operation.target) {
+            setImages(previousImages.current);
+        }
+    };
+
     return (
-        // <div role="region"
-        // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.
-        <DragDropProvider onDragEnd={handleDragEnd}>
+        // <DragDropProvider onDragEnd={handleDragEnd} onDragOver={(event) => {
+        //     console.log('dragOver:', event.operation.target?.id);
+        // }} onDragStart={() => setSavedImages(images)}>
+
+        <DragDropProvider onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
+
+            {/* <div role="region" */}
+            {/* // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.     */}
+
             <section
                 aria-label="Galería de imágenes"
                 className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
@@ -71,7 +102,6 @@ export const Gallery = () => {
             </section>
         </DragDropProvider>
     )
-    // NO LO CREO PERO PROBAR SI EL PROBLEMA ES EL ID ????????????
 }
 
 // Equivalente:

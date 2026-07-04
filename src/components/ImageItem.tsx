@@ -2,9 +2,9 @@ import type { Image } from "../types/image";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { directionBiased } from "@dnd-kit/collision";
+// import { directionBiased } from "@dnd-kit/collision";
 import { pointerIntersection } from "@dnd-kit/collision";
-import { CollisionPriority } from '@dnd-kit/abstract';
+// import { CollisionPriority } from '@dnd-kit/abstract';
 
 interface ImageItemProps {
     image: Image;
