@@ -2,6 +2,9 @@ import type { Image } from "../types/image";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
+import { directionBiased } from "@dnd-kit/collision";
+import { pointerIntersection } from "@dnd-kit/collision";
+import { CollisionPriority } from '@dnd-kit/abstract';
 
 interface ImageItemProps {
     image: Image;
@@ -22,7 +25,12 @@ const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 bord
 // JavaScript desestructura el objeto props automáticamente en el parámetro. El objeto sigue existiendo, simplemente no se ve.
 export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps) => {
 
-    const {ref} = useSortable({id: image.id, index})
+    const {ref} = useSortable({
+        id: image.id,
+        index,
+        collisionDetector: pointerIntersection,
+        // collisionPriority: isFeatured ? CollisionPriority.High : CollisionPriority.Normal
+    });
 
     return (
         <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}>

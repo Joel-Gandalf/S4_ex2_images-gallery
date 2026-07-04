@@ -2,6 +2,15 @@ import { useState } from "react";
 import type { Image } from "../types/image";
 import { ImageItem } from "./ImageItem";
 
+import { DragDropProvider } from "@dnd-kit/react";
+import type {DragEndEvent} from "@dnd-kit/react";
+import { isSortable } from "@dnd-kit/react/sortable";
+import { move } from "@dnd-kit/helpers";
+
+
+// import { target } from "lucide-react";
+
+
 const imagesList: Image[] = [
     { id: '1', src: 'https://picsum.photos/id/11/400/300', alt: 'Río entre montañas' },
     { id: '2', src: 'https://picsum.photos/id/12/400/300', alt: 'Río desembocando en el mar' },
@@ -29,20 +38,40 @@ export const Gallery = () => {
             setImages(images.filter(img => img.id !== id));
         }
     }
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const {source, target} = event.operation;
+
+        if (!target || !isSortable(source) || !isSortable(target)){
+            return;
+        }
+
+        // setImages(images => move(images, event));
+        // setImages(move(images, source.index, target.index));
+        setImages(move(images, event));
+    }
+
+    // const handleDragEnd = ({operation: {source, target}}: DragEndEvent) => {
+
+    // }
+
     return (
         // <div role="region"
-            // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.
-        <section
-            aria-label="Galería de imágenes"
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
-            {/* {images.map((image) => (
+        // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.
+        <DragDropProvider onDragEnd={handleDragEnd}>
+            <section
+                aria-label="Galería de imágenes"
+                className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
+                {/* {images.map((image) => (
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
-            {images.map((image, index) => (
-                <ImageItem key={image.id} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
-            ))}
-        </section>
+                {images.map((image, index) => (
+                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
+                ))}
+            </section>
+        </DragDropProvider>
     )
+    // NO LO CREO PERO PROBAR SI EL PROBLEMA ES EL ID ????????????
 }
 
 // Equivalente:
