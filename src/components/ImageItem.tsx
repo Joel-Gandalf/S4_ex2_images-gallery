@@ -33,7 +33,7 @@ export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps
     });
 
     return (
-        <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''}`}>
+        <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''}`} aria-roledescription="imagen arrastrable">
             <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className='w-full h-full' />
             <Button
                 className={buttonDeleteStyles}
