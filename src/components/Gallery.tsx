@@ -2,6 +2,15 @@ import { useState } from "react";
 import type { Image } from "../types/image";
 import { ImageItem } from "./ImageItem";
 
+import { DragDropProvider } from "@dnd-kit/react";
+import type { DragEndEvent, DragOverEvent } from "@dnd-kit/react";
+
+// import { isSortable } from "@dnd-kit/react/sortable";
+import { move } from "@dnd-kit/helpers";
+
+import { useRef } from "react";
+
+
 const imagesList: Image[] = [
     { id: '1', src: 'https://picsum.photos/id/11/400/300', alt: 'Río entre montañas' },
     { id: '2', src: 'https://picsum.photos/id/12/400/300', alt: 'Río desembocando en el mar' },
@@ -24,24 +33,74 @@ export const Gallery = () => {
     // Devuelve dos cosas:
     // images — el valor actual del estado (tu array de imágenes)
     // setImages — la función para actualizarlo
+    // const [savedImages, setSavedImages] = useState<Image[]>(imagesList);
+
     const handleDelete = (id: string) => {
         if (window.confirm('¿Eliminar esta imagen?')) {
             setImages(images.filter(img => img.id !== id));
         }
     }
+
+    const previousImages = useRef<Image[]>(imagesList);
+
+    // const handleDragEnd = (event: DragEndEvent) => {
+
+    //     if (event.canceled || !event.operation.target) {
+    //         setImages(savedImages);
+    //         return;
+    //     }
+
+    //     const { source, target } = event.operation;
+
+    //     if (!target || !isSortable(source) || !isSortable(target)) {
+    //         console.log('returning early - no valid target');
+    //         return;
+    //     }
+
+    // setImages(images => move(images, event));
+    // setImages(move(images, source.index, target.index));
+    //     setImages(move(images, event));
+    // }
+
+    // const handleDragEnd = ({operation: {source, target}}: DragEndEvent) => {
+
+    // }
+
+    const handleDragStart = () => {
+        previousImages.current = images;
+    };
+
+    const handleDragOver = (event: DragOverEvent) => {
+        setImages(images => move(images, event));
+    };
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        if (event.canceled || !event.operation.target) {
+            setImages(previousImages.current);
+        }
+    };
+
     return (
-        // <div role="region"
-            // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.
-        <section
-            aria-label="Galería de imágenes"
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
-            {/* {images.map((image) => (
+        // <DragDropProvider onDragEnd={handleDragEnd} onDragOver={(event) => {
+        //     console.log('dragOver:', event.operation.target?.id);
+        // }} onDragStart={() => setSavedImages(images)}>
+
+        <DragDropProvider onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
+
+            {/* <div role="region" */}
+            {/* // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.     */}
+
+            <section
+                aria-label="Galería de imágenes"
+                className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
+                {/* {images.map((image) => (
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
-            {images.map((image, index) => (
-                <ImageItem key={image.id} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
-            ))}
-        </section>
+                {images.map((image, index) => (
+                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
+                ))}
+            </section>
+        </DragDropProvider>
     )
 }
 
