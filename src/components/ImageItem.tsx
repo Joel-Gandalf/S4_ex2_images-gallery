@@ -25,7 +25,7 @@ const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 bord
 // JavaScript desestructura el objeto props automáticamente en el parámetro. El objeto sigue existiendo, simplemente no se ve.
 export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps) => {
 
-    const {ref} = useSortable({
+    const {ref, isDragging} = useSortable({
         id: image.id,
         index,
         collisionDetector: pointerIntersection,
@@ -33,7 +33,7 @@ export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps
     });
 
     return (
-        <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
+        <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''}`}>
             <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className='w-full h-full' />
             <Button
                 className={buttonDeleteStyles}
