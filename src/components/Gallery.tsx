@@ -10,6 +10,8 @@ import { move } from "@dnd-kit/helpers";
 
 import { useRef } from "react";
 
+import { toast } from "sonner";
+
 
 const imagesList: Image[] = [
     { id: '1', src: 'https://picsum.photos/id/11/400/300', alt: 'Río entre montañas' },
@@ -34,6 +36,8 @@ export const Gallery = () => {
     // images — el valor actual del estado (tu array de imágenes)
     // setImages — la función para actualizarlo
     // const [savedImages, setSavedImages] = useState<Image[]>(imagesList);
+
+    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
     const handleDelete = (id: string) => {
         if (window.confirm('¿Eliminar esta imagen?')) {
@@ -80,6 +84,30 @@ export const Gallery = () => {
         }
     };
 
+    const handleToggleSelect = (id: string) => {
+        const newSelectedIds = new Set(selectedIds);
+
+        if (selectedIds.has(id)) {
+            newSelectedIds.delete(id);
+            setSelectedIds(newSelectedIds);
+            return;
+        }
+
+        newSelectedIds.add(id);
+        setSelectedIds(newSelectedIds);
+    }
+
+    const handleDeleteSelected = () => {
+        if (window.confirm(`Desea eliminar la selección de ${selectedIds.size} ${selectedIds.size > 1 ? "imágenes" : "imagen"}`)) {
+            setImages(images.filter(image => (
+                !selectedIds.has(image.id)
+                ))
+            )
+            setSelectedIds(new Set());
+            toast("Selección de imágenes eliminada");
+        }
+    }
+
     return (
         // <DragDropProvider onDragEnd={handleDragEnd} onDragOver={(event) => {
         //     console.log('dragOver:', event.operation.target?.id);
@@ -87,6 +115,14 @@ export const Gallery = () => {
 
         <DragDropProvider onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
 
+            {selectedIds.size > 0 && (
+                <button
+                    className="flex justify-center items-center mx-auto rounded py-2 px-3 bg-red-800 text-white cursor-pointer"
+                onClick={handleDeleteSelected}
+                >Borrar selección: {selectedIds.size} {selectedIds.size > 1 ? "imágenes" : "imagen"}
+                </button>
+            )
+            }
             {/* <div role="region" */}
             {/* // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.     */}
 
@@ -97,7 +133,7 @@ export const Gallery = () => {
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
                 {images.map((image, index) => (
-                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
+                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete} onToggleSelect={handleToggleSelect} isSelected={selectedIds.has(image.id)}></ImageItem>
                 ))}
             </section>
         </DragDropProvider>
