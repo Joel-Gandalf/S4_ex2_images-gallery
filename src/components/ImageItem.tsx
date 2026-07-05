@@ -11,6 +11,8 @@ interface ImageItemProps {
     isFeatured: boolean;
     onDelete: (id: string) => void;
     index: number;
+    isSelected: boolean;
+    onToggleSelect: (id: string) => void;
 }
 
 const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 border-none hover:bg-destructive/70 hover:text-white hover:shadow-[0_0_0_3px_rgba(220,38,38,0.25)] hover:cursor-pointer"
@@ -23,7 +25,7 @@ const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 bord
 
 // React sigue pasando el objeto props internamente.
 // JavaScript desestructura el objeto props automáticamente en el parámetro. El objeto sigue existiendo, simplemente no se ve.
-export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps) => {
+export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onToggleSelect }: ImageItemProps) => {
 
     const {ref, isDragging} = useSortable({
         id: image.id,
@@ -33,8 +35,14 @@ export const ImageItem = ({ image, isFeatured, onDelete, index }: ImageItemProps
     });
 
     return (
-        <figure ref={ref} className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''}`} aria-roledescription="imagen arrastrable">
-            <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className='w-full h-full' />
+        <figure 
+            ref={ref} 
+            className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''} ${isSelected ? 'ring-5 ring-cyan-800 rounded-xs' : ''}`} aria-roledescription="imagen arrastrable"
+            onClick={()=> onToggleSelect(image.id)}>
+            
+            <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className={`w-full h-full ${isSelected ? 'rounded-xs' : 'rounded-none'}`} />
+            {isSelected && <div className="absolute inset-0 bg-cyan-700/20 rounded-xs" />}
+            {/* {isSelected ? <div>...</div> : null} */}
             <Button
                 className={buttonDeleteStyles}
                 variant="destructive"

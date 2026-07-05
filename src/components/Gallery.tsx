@@ -35,6 +35,8 @@ export const Gallery = () => {
     // setImages — la función para actualizarlo
     // const [savedImages, setSavedImages] = useState<Image[]>(imagesList);
 
+    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
     const handleDelete = (id: string) => {
         if (window.confirm('¿Eliminar esta imagen?')) {
             setImages(images.filter(img => img.id !== id));
@@ -80,6 +82,19 @@ export const Gallery = () => {
         }
     };
 
+    const handleToggleSelect = (id: string) => {
+        const newSelectedIds = new Set(selectedIds);
+
+        if (selectedIds.has(id)) {
+            newSelectedIds.delete(id);
+            setSelectedIds(newSelectedIds);
+            return;
+        }
+        
+        newSelectedIds.add(id);
+        setSelectedIds(newSelectedIds);
+    }
+
     return (
         // <DragDropProvider onDragEnd={handleDragEnd} onDragOver={(event) => {
         //     console.log('dragOver:', event.operation.target?.id);
@@ -97,7 +112,7 @@ export const Gallery = () => {
                 <ImageItem image={image} isFeatured={image === images[0]}></ImageItem>
             ))} */}
                 {images.map((image, index) => (
-                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete}></ImageItem>
+                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete} onToggleSelect={handleToggleSelect} isSelected={selectedIds.has(image.id)}></ImageItem>
                 ))}
             </section>
         </DragDropProvider>
