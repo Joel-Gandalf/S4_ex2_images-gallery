@@ -10,6 +10,8 @@ import { move } from "@dnd-kit/helpers";
 
 import { useRef } from "react";
 
+import { toast } from "sonner";
+
 
 const imagesList: Image[] = [
     { id: '1', src: 'https://picsum.photos/id/11/400/300', alt: 'Río entre montañas' },
@@ -102,6 +104,7 @@ export const Gallery = () => {
                 ))
             )
             setSelectedIds(new Set());
+            toast("Selección de imágenes eliminada");
         }
     }
 
@@ -114,7 +117,7 @@ export const Gallery = () => {
 
             {selectedIds.size > 0 && (
                 <button
-                    className="flex justify-center items-center mx-auto rounded py-2 px-3 bg-red-800 text-white"
+                    className="flex justify-center items-center mx-auto rounded py-2 px-3 bg-red-800 text-white cursor-pointer"
                 onClick={handleDeleteSelected}
                 >Borrar selección: {selectedIds.size} {selectedIds.size > 1 ? "imágenes" : "imagen"}
                 </button>
