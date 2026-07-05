@@ -90,9 +90,19 @@ export const Gallery = () => {
             setSelectedIds(newSelectedIds);
             return;
         }
-        
+
         newSelectedIds.add(id);
         setSelectedIds(newSelectedIds);
+    }
+
+    const handleDeleteSelected = () => {
+        if (window.confirm(`Desea eliminar la selección de ${selectedIds.size} ${selectedIds.size > 1 ? "imágenes" : "imagen"}`)) {
+            setImages(images.filter(image => (
+                !selectedIds.has(image.id)
+                ))
+            )
+            setSelectedIds(new Set());
+        }
     }
 
     return (
@@ -102,6 +112,14 @@ export const Gallery = () => {
 
         <DragDropProvider onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
 
+            {selectedIds.size > 0 && (
+                <button
+                    className="flex justify-center items-center mx-auto rounded py-2 px-3 bg-red-800 text-white"
+                onClick={handleDeleteSelected}
+                >Borrar selección: {selectedIds.size} {selectedIds.size > 1 ? "imágenes" : "imagen"}
+                </button>
+            )
+            }
             {/* <div role="region" */}
             {/* // role="region" indica que es una sección significativa de la página. La etiqueta <section> lo lleva implicito.     */}
 
