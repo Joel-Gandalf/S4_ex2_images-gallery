@@ -38,7 +38,7 @@ export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onTo
         <figure 
             ref={ref} 
             className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''} ${isSelected ? 'ring-5 ring-cyan-800 rounded-xs' : ''}`} aria-roledescription="imagen arrastrable"
-            onClick={(event)=> {
+            onClick={()=> {
                 // event.preventDefault();
                 // NO necesario dnd-kit distingue click de drag internamente
                 onToggleSelect(image.id)
