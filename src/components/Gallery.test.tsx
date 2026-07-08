@@ -21,12 +21,14 @@ describe('Gallery Component', () => {
     it('The individual delete button should delete an image', async () => {
         render(<Gallery />);
         vi.spyOn(window, 'confirm').mockImplementation(() => true)
-        const deleteButtons = screen.getAllByRole('button', {name: /eliminar imagen/i});
+        const initialImages = screen.getAllByRole('img');
+        const totalInitialImages = initialImages.length;
         
+        const deleteButtons = screen.getAllByRole('button', {name: /eliminar imagen/i});
         await userEvent.click(deleteButtons[0])
 
-        const images = screen.getAllByRole('img');
-        expect(images).toHaveLength(11);
+        const finalImages = screen.getAllByRole('img');
+        expect(finalImages).toHaveLength(totalInitialImages -1);
     });
 });
 
@@ -64,4 +66,17 @@ describe('Gallery Component', () => {
         // 3. VITEST (expect) + JEST-DOM (toHaveAttribute) comprueban el HTML
 //         expect(images[0]).toHaveAttribute('alt', expect.stringContaining('Imagen destacada'));
 //     });
+// });
+
+
+// primera opción(suponiendo que siempre hayan 12 imagenes)
+// it('The individual delete button should delete an image', async () => {
+//     render(<Gallery />);
+//     vi.spyOn(window, 'confirm').mockImplementation(() => true)
+//     const deleteButtons = screen.getAllByRole('button', {name: /eliminar imagen/i});
+    
+//     await userEvent.click(deleteButtons[0])
+
+//     const images = screen.getAllByRole('img');
+//     expect(images).toHaveLength(11);
 // });
