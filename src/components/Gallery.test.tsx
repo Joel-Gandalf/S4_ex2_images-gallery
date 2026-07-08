@@ -20,15 +20,33 @@ describe('Gallery Component', () => {
 
     it('The individual delete button should delete an image', async () => {
         render(<Gallery />);
-        vi.spyOn(window, 'confirm').mockImplementation(() => true)
+        vi.spyOn(window, 'confirm').mockImplementation(() => true);
         const initialImages = screen.getAllByRole('img');
         const totalInitialImages = initialImages.length;
         
         const deleteButtons = screen.getAllByRole('button', {name: /eliminar imagen/i});
-        await userEvent.click(deleteButtons[0])
+        await userEvent.click(deleteButtons[0]);
 
         const finalImages = screen.getAllByRole('img');
         expect(finalImages).toHaveLength(totalInitialImages -1);
+    });
+
+    it('It should allow selecting multiple images and deleting them.', async () => {
+        render(<Gallery />);
+        vi.spyOn(window, 'confirm').mockImplementation(() => true);
+        const initialImages = screen.getAllByRole('img');
+        const totalInitialImages = initialImages.length;
+        
+        await userEvent.click(initialImages[0]);
+        await userEvent.click(initialImages[1]);
+
+        const deleteButton = screen.getByRole('button', {name: /borrar selección/i});
+        expect(deleteButton).toBeInTheDocument();
+        
+        await userEvent.click(deleteButton);
+
+        const finalImages = screen.getAllByRole('img');
+        expect(finalImages).toHaveLength(totalInitialImages -2);
     });
 });
 
@@ -80,3 +98,7 @@ describe('Gallery Component', () => {
 //     const images = screen.getAllByRole('img');
 //     expect(images).toHaveLength(11);
 // });
+
+                        // --------------------------------------------------------
+                        
+// Regla de oro del testing: Si cambias el código por dentro (refactorización) pero el comportamiento por fuera sigue siendo el mismo, tus tests no deberían romperse. Si se rompen, estabas testeando la implementación, no el comportamiento.
