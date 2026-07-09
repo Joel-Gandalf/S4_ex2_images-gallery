@@ -36,13 +36,22 @@ export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onTo
 
     return (
         <figure 
-            ref={ref} 
-            className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''} ${isSelected ? 'ring-5 ring-cyan-800 rounded-xs' : ''}`} aria-roledescription="imagen arrastrable"
-            onClick={(event)=> {
+            ref={ref}
+            tabIndex={0}
+            className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''} ${isSelected ? 'ring-5 ring-cyan-800 rounded-xs' : ''}`} 
+            aria-roledescription="imagen arrastrable"
+            onClick={()=> {
                 // event.preventDefault();
                 // NO necesario dnd-kit distingue click de drag internamente
-                onToggleSelect(image.id)
-            }}>
+                onToggleSelect(image.id);
+            }}
+            onKeyDown= {(event) => {
+                if (event.key === ' ' || event.key === 'Enter') {
+                    event.preventDefault();  // Evita que la barra espaciadora haga scroll en la página
+                    onToggleSelect(image.id);
+                }
+            }}
+            >
             
             <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className={`w-full h-full ${isSelected ? 'rounded-xs' : 'rounded-none'}`} />
             {isSelected && <div className="absolute inset-0 bg-cyan-700/20 rounded-xs" />}
