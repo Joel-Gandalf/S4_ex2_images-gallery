@@ -48,6 +48,10 @@ describe('Gallery Component', () => {
         const finalImages = screen.getAllByRole('img');
         expect(finalImages).toHaveLength(totalInitialImages -2);
     });
+
+    // Test de DnD comentado: la nueva API de @dnd-kit/react (v0.5+) no tiene
+    // utilidades de testing oficiales. La simulación de eventos pointer en jsdom
+    // no es fiable para este caso de uso.
     
     // it('should reorder images when dragged', async () => {
     //     render(<Gallery />);

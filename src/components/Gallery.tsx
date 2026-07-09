@@ -104,7 +104,7 @@ export const Gallery = () => {
             {selectedIds.size > 0 && (
                 <button
                     className="flex justify-center items-center mx-auto rounded py-2 px-3 bg-red-800 text-white cursor-pointer"
-                onClick={handleDeleteSelected}
+                    onClick={handleDeleteSelected}
                 >Borrar selección: {selectedIds.size} {selectedIds.size > 1 ? "imágenes" : "imagen"}
                 </button>
             )
