@@ -48,6 +48,28 @@ describe('Gallery Component', () => {
         const finalImages = screen.getAllByRole('img');
         expect(finalImages).toHaveLength(totalInitialImages -2);
     });
+    
+    // it('should reorder images when dragged', async () => {
+    //     render(<Gallery />);
+    //     const initialImages = screen.getAllByRole('img');
+    //     const firstImage = initialImages[0];
+    //     const firstImageAlt = firstImage.getAttribute('alt');
+
+    //     const draggableElement = firstImage.closest('figure');
+
+    //     if (!draggableElement) throw new Error('Elemento arrastrable no encontrado');
+
+    //     draggableElement.focus();
+    //     console.log(document.activeElement?.tagName);
+    //     await userEvent.keyboard(' ');
+    //     await userEvent.keyboard('{ArrowDown}');
+    //     await userEvent.keyboard(' ');
+
+    //     const finalImages = screen.getAllByRole('img');
+
+    //     expect(finalImages[1]).toHaveAttribute('alt', firstImageAlt);
+    // });
+
 });
 
 // toBeInTheDocument() espera un elemento HTML, no un array. getAllByRole devuelve un array.
