@@ -53,7 +53,7 @@ export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onTo
             }}
             >
             
-            <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className={`w-full h-full ${isSelected ? 'rounded-xs' : 'rounded-none'}`} />
+            <img id={image.id} src={image.src} alt={isFeatured ? `Imagen destacada: ${image.alt}` : image.alt} className={`w-full h-full ${isSelected ? 'rounded-xs' : 'rounded-none'}`} fetchPriority={isFeatured ? "high" : "auto"} />
             {isSelected && <div className="absolute inset-0 bg-cyan-700/20 rounded-xs" />}
             {/* {isSelected ? <div>...</div> : null} */}
             
@@ -86,3 +86,7 @@ export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onTo
 // Es el patrón que ya has aplicado sin saber el nombre — cuando varios componentes necesitan compartir o reaccionar al mismo estado, ese estado se "eleva" al componente padre común más cercano.
 // En tu caso: images podría haber vivido dentro de ImageItem, pero como Gallery necesita gestionar la lista completa (eliminar, reordenar...), el estado se "elevó" a Gallery, que es el padre. ImageItem recibe los datos por props en vez de tener su propio estado.
 // Es exactamente lo que hiciste al poner useState en Gallery en vez de en ImageItem.
+
+// fetchpriority="high" tiene más impacto — mejora el LCP (Largest Contentful Paint) que es la métrica más importante de rendimiento. Le dice al navegador que cargue la imagen destacada antes que el resto.
+
+// Los errores en consola — ya te lo expliqué: son de las extensiones de Chrome, no de tu código. Aparecen aleatoriamente dependiendo de cuándo las extensiones intentan comunicarse. No tienen relación con tus cambios.
