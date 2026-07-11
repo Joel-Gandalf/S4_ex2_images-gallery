@@ -1,5 +1,4 @@
 import { Gallery } from './components/Gallery';
-// import './App.css'
 import { Toaster } from "@/components/ui/sonner";
 
 export const App = () => {

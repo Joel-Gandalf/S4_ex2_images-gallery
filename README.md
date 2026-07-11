@@ -1,32 +1,104 @@
-# React + TypeScript + Vite
+# Image Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+An interactive image gallery built with React and TypeScript as a learning exercise to explore component architecture, state management, drag and drop, and professional testing practices.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Responsive image grid with a featured first image (larger display)
+- Individual image deletion with confirmation dialog
+- Multiple image selection with batch deletion
+- Drag and drop reordering with visual feedback
+- Accessible UI — keyboard navigation, ARIA attributes, screen reader support
+- Toast notifications for user feedback
 
-## React Compiler
+## Screenshots
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![App screenshot](./public/screenshots/screenshot-live.png)
 
-## Expanding the Oxlint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- [React 19](https://react.dev/) — UI library
+- [TypeScript](https://www.typescriptlang.org/) — type safety
+- [Vite](https://vitejs.dev/) — build tool
+- [Tailwind CSS v4](https://tailwindcss.com/) — utility-first styling
+- [shadcn/ui](https://ui.shadcn.com/) — accessible component primitives
+- [dnd-kit latest](https://dndkit.com/) — drag and drop
+- [Sonner](https://sonner.emilkowal.ski/) — toast notifications
+- [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/react) — testing
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Project Structure
+
+```
+image-gallery/
+├── public/
+│   └── favicon.png
+├── src/
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── button.tsx
+│   │   │   └── sonner.tsx
+│   │   ├── Gallery.tsx
+│   │   ├── Gallery.test.tsx
+│   │   ├── ImageItem.tsx
+│   ├── data/
+│   │   └── images.ts
+│   ├── lib/
+│   │   └── utils.ts
+│   ├── types/
+│   │   └── image.ts
+│   ├── App.tsx
+│   ├── App.test.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── setupTests.ts
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+└── tsconfig.app.json
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Getting Started
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/Joel-Gandalf/S4_ex2_images-gallery.git
+cd image-gallery
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm test` | Run tests |
+| `npm run test:coverage` | Run tests with coverage report |
+
+## Usage
+
+- **Click** an image to select it
+- **Drag and drop** images to reorder them
+- **Click the trash icon** on an image to delete it individually
+- **Select multiple images** and use the batch delete button to remove them all at once
+
+## Lighthouse results
+
+![Lighthouse screenshot](./public/screenshots/lighthouse.PNG)
+
+## Coverage
+
+![Coverage screenshot](./public/screenshots/coverage-image-gallery.PNG)
+
+## Author
+
+**Joel Gandalf**
+[GitHub](https://github.com/Joel-Gandalf)
