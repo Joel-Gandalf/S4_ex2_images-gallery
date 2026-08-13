@@ -1,66 +1,78 @@
-import { useState } from "react";
+// import { useState } from "react";
 import type { Image } from "../types/image";
 import { ImageItem } from "./ImageItem";
-import { imagesList } from "@/data/images";
+// import { imagesList } from "@/data/images";
 
 import { DragDropProvider } from "@dnd-kit/react";
 import type { DragEndEvent, DragOverEvent } from "@dnd-kit/react";
-import { move } from "@dnd-kit/helpers";
-import { useRef } from "react";
+// import { move } from "@dnd-kit/helpers";
+// import { useRef } from "react";
 
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
-export const Gallery = () => {
+interface GalleryPresenterProps {
+    handleDragStart: () => void;
+    handleDragOver: (event: DragOverEvent) => void;
+    handleDragEnd: (event: DragEndEvent) => void;
+    selectedIds: Set<string>
+    handleDeleteSelected: () => void;
+    images: Image[]
+    handleDelete: (id: string) => void;
+    handleToggleSelect: (id: string) => void;
 
-    const [images, setImages] = useState<Image[]>(imagesList);
+}
 
-    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+export const GalleryPresenter = ({handleDragStart, handleDragOver, handleDragEnd, selectedIds, handleDeleteSelected, images, handleDelete, handleToggleSelect}: GalleryPresenterProps) => {
 
-    const handleDelete = (id: string) => {
-        if (window.confirm('¿Eliminar esta imagen?')) {
-            setImages(images.filter(img => img.id !== id));
-        }
-    }
+    // const [images, setImages] = useState<Image[]>(imagesList);
 
-    const previousImages = useRef<Image[]>(imagesList);
+    // const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-    const handleDragStart = () => {
-        previousImages.current = images;
-    };
+    // const handleDelete = (id: string) => {
+    //     if (window.confirm('¿Eliminar esta imagen?')) {
+    //         setImages(images.filter(img => img.id !== id));
+    //     }
+    // }
 
-    const handleDragOver = (event: DragOverEvent) => {
-        setImages(images => move(images, event));
-    };
+    // const previousImages = useRef<Image[]>(imagesList);
 
-    const handleDragEnd = (event: DragEndEvent) => {
-        if (event.canceled || !event.operation.target) {
-            setImages(previousImages.current);
-        }
-    };
+    // const handleDragStart = () => {
+    //     previousImages.current = images;
+    // };
 
-    const handleToggleSelect = (id: string) => {
-        const newSelectedIds = new Set(selectedIds);
+    // const handleDragOver = (event: DragOverEvent) => {
+    //     setImages(images => move(images, event));
+    // };
 
-        if (selectedIds.has(id)) {
-            newSelectedIds.delete(id);
-            setSelectedIds(newSelectedIds);
-            return;
-        }
+    // const handleDragEnd = (event: DragEndEvent) => {
+    //     if (event.canceled || !event.operation.target) {
+    //         setImages(previousImages.current);
+    //     }
+    // };
 
-        newSelectedIds.add(id);
-        setSelectedIds(newSelectedIds);
-    }
+    // const handleToggleSelect = (id: string) => {
+    //     const newSelectedIds = new Set(selectedIds);
 
-    const handleDeleteSelected = () => {
-        if (window.confirm(`Desea eliminar la selección de ${selectedIds.size} ${selectedIds.size > 1 ? "imágenes" : "imagen"}`)) {
-            setImages(images.filter(image => (
-                !selectedIds.has(image.id)
-                ))
-            )
-            setSelectedIds(new Set());
-            toast("Selección de imágenes eliminada");
-        }
-    }
+    //     if (selectedIds.has(id)) {
+    //         newSelectedIds.delete(id);
+    //         setSelectedIds(newSelectedIds);
+    //         return;
+    //     }
+
+    //     newSelectedIds.add(id);
+    //     setSelectedIds(newSelectedIds);
+    // }
+
+    // const handleDeleteSelected = () => {
+    //     if (window.confirm(`Desea eliminar la selección de ${selectedIds.size} ${selectedIds.size > 1 ? "imágenes" : "imagen"}`)) {
+    //         setImages(images.filter(image => (
+    //             !selectedIds.has(image.id)
+    //             ))
+    //         )
+    //         setSelectedIds(new Set());
+    //         toast("Selección de imágenes eliminada");
+    //     }
+    // }
 
     return (
 
