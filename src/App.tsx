@@ -1,4 +1,4 @@
-import { Gallery } from './components/Gallery';
+import { GalleryContainer } from "./components/GalleryContainer";
 import { Toaster } from "@/components/ui/sonner";
 
 export const App = () => {
@@ -10,7 +10,7 @@ export const App = () => {
       </header>
       <Toaster position='bottom-center'></Toaster>
       <main>
-        <Gallery></Gallery>
+        <GalleryContainer></GalleryContainer>
       </main>
     </>
   )

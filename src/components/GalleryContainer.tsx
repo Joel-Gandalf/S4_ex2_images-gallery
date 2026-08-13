@@ -1,17 +1,16 @@
 import { useState } from "react";
 import type { Image } from "../types/image";
-import { ImageItem } from "./ImageItem";
 import { imagesList } from "@/data/images";
 
-import { DragDropProvider } from "@dnd-kit/react";
 import type { DragEndEvent, DragOverEvent } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 import { useRef } from "react";
 
 import { toast } from "sonner";
 
-export const Gallery = () => {
+import { GalleryPresenter } from "./GalleryPresenter";
 
+export const GalleryContainer = () => {
     const [images, setImages] = useState<Image[]>(imagesList);
 
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -61,26 +60,7 @@ export const Gallery = () => {
             toast("Selección de imágenes eliminada");
         }
     }
-
-    return (
-
-        <DragDropProvider onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-
-            {selectedIds.size > 0 && (
-                <button
-                    className="flex justify-center items-center mx-auto rounded py-2 px-3 bg-red-800 text-white cursor-pointer"
-                    onClick={handleDeleteSelected}
-                >Borrar selección: {selectedIds.size} {selectedIds.size > 1 ? "imágenes" : "imagen"}
-                </button>
-            )}
-
-            <section
-                aria-label="Galería de imágenes"
-                className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
-                {images.map((image, index) => (
-                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete} onToggleSelect={handleToggleSelect} isSelected={selectedIds.has(image.id)}></ImageItem>
-                ))}
-            </section>
-        </DragDropProvider>
+    return(
+        <GalleryPresenter handleDragStart={handleDragStart} handleDragOver={handleDragOver} handleDragEnd={handleDragEnd} selectedIds={selectedIds} handleDeleteSelected={handleDeleteSelected} images={images} handleDelete={handleDelete} handleToggleSelect={handleToggleSelect} />
     )
 }
