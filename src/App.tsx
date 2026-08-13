@@ -1,4 +1,4 @@
-import { Gallery } from './components/Gallery';
+import { Gallery } from './components/GalleryPresenter';
 import { Toaster } from "@/components/ui/sonner";
 
 export const App = () => {

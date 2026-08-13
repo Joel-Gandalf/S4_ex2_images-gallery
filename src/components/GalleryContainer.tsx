@@ -8,7 +8,7 @@ import { useRef } from "react";
 
 import { toast } from "sonner";
 
-import { GalleryPresenter } from "./Gallery";
+import { GalleryPresenter } from "./GalleryPresenter";
 
 export const GalleryContainer = () => {
     const [images, setImages] = useState<Image[]>(imagesList);

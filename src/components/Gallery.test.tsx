@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { Gallery } from './Gallery';
+import { Gallery } from './GalleryPresenter';
 
 describe('Gallery Component', () => {
     it('should render all images', () => {
