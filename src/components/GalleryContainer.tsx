@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { toast } from "sonner";
 
 import { GalleryPresenter } from "./GalleryPresenter";
+import { GalleryContext } from "@/contexts/GalleryContext";
 
 export const GalleryContainer = () => {
     const [images, setImages] = useState<Image[]>(imagesList);
@@ -54,13 +55,15 @@ export const GalleryContainer = () => {
         if (window.confirm(`Desea eliminar la selección de ${selectedIds.size} ${selectedIds.size > 1 ? "imágenes" : "imagen"}`)) {
             setImages(images.filter(image => (
                 !selectedIds.has(image.id)
-                ))
+            ))
             )
             setSelectedIds(new Set());
             toast("Selección de imágenes eliminada");
         }
     }
-    return(
-        <GalleryPresenter handleDragStart={handleDragStart} handleDragOver={handleDragOver} handleDragEnd={handleDragEnd} selectedIds={selectedIds} handleDeleteSelected={handleDeleteSelected} images={images} handleDelete={handleDelete} handleToggleSelect={handleToggleSelect} />
+    return (
+        <GalleryContext.Provider value={{ handleDelete, handleToggleSelect }}>
+            <GalleryPresenter handleDragStart={handleDragStart} handleDragOver={handleDragOver} handleDragEnd={handleDragEnd} selectedIds={selectedIds} handleDeleteSelected={handleDeleteSelected} images={images} />
+        </GalleryContext.Provider>
     )
 }
