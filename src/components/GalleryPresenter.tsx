@@ -17,12 +17,12 @@ interface GalleryPresenterProps {
     selectedIds: Set<string>
     handleDeleteSelected: () => void;
     images: Image[]
-    handleDelete: (id: string) => void;
-    handleToggleSelect: (id: string) => void;
+    // handleDelete: (id: string) => void;
+    // handleToggleSelect: (id: string) => void;
 
 }
 
-export const GalleryPresenter = ({handleDragStart, handleDragOver, handleDragEnd, selectedIds, handleDeleteSelected, images, handleDelete, handleToggleSelect}: GalleryPresenterProps) => {
+export const GalleryPresenter = ({handleDragStart, handleDragOver, handleDragEnd, selectedIds, handleDeleteSelected, images}: GalleryPresenterProps) => {
 
     // const [images, setImages] = useState<Image[]>(imagesList);
 
@@ -90,7 +90,7 @@ export const GalleryPresenter = ({handleDragStart, handleDragOver, handleDragEnd
                 aria-label="Galería de imágenes"
                 className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 container mx-auto p-4 pt-5 md:pt-8">
                 {images.map((image, index) => (
-                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} onDelete={handleDelete} onToggleSelect={handleToggleSelect} isSelected={selectedIds.has(image.id)}></ImageItem>
+                    <ImageItem key={image.id} index={index} image={image} isFeatured={index === 0} isSelected={selectedIds.has(image.id)}></ImageItem>
                 ))}
             </section>
         </DragDropProvider>
