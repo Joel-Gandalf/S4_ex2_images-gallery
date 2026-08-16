@@ -4,18 +4,22 @@ import { Trash2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { pointerIntersection } from "@dnd-kit/collision";
 
+import { useGalleryContext } from "@/hooks/useGalleryContext";
+
 interface ImageItemProps {
     image: Image;
     isFeatured: boolean;
-    onDelete: (id: string) => void;
+    // onDelete: (id: string) => void;
     index: number;
     isSelected: boolean;
-    onToggleSelect: (id: string) => void;
+    // onToggleSelect: (id: string) => void;
 }
 
 const buttonDeleteStyles = "absolute top-2 right-2 bg-white/60 text-red-800 border-none hover:bg-destructive/70 hover:text-white hover:shadow-[0_0_0_3px_rgba(220,38,38,0.25)] hover:cursor-pointer"
 
-export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onToggleSelect }: ImageItemProps) => {
+export const ImageItem = ({ image, isFeatured, index, isSelected }: ImageItemProps) => {
+
+    const {handleDelete, handleToggleSelect} = useGalleryContext();
 
     const {ref, isDragging} = useSortable({
         id: image.id,
@@ -30,12 +34,12 @@ export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onTo
             className={`relative ${isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isDragging ? 'opacity-30' : ''} ${isSelected ? 'ring-5 ring-cyan-800 rounded-xs' : ''}`} 
             aria-roledescription="imagen arrastrable"
             onClick={()=> {
-                onToggleSelect(image.id);
+                handleToggleSelect(image.id);
             }}
             onKeyDown= {(event) => {
                 if (event.key === ' ' || event.key === 'Enter') {
                     event.preventDefault();
-                    onToggleSelect(image.id);
+                    handleToggleSelect(image.id);
                 }
             }}
             >
@@ -56,8 +60,14 @@ export const ImageItem = ({ image, isFeatured, onDelete, index, isSelected, onTo
                 aria-label="Eliminar imagen"
                 onClick={(event) => {
                     event.stopPropagation();
-                    onDelete(image.id);
+                    handleDelete(image.id);
                 }}><Trash2 /></Button>
         </figure>
     )
 }
+
+// La convención onX vs handleX en React:
+
+// onX (onDelete, onToggleSelect) se usa para el nombre de la prop que declaras en la interfaz, desde el punto de vista de quien la recibe — indica "esto es un callback que se dispara cuando ocurre X". Es lo que hacías antes: ImageItem declaraba onDelete como prop porque, desde su perspectiva, es "el evento al que reacciono".
+
+// handleX (handleDelete, handleToggleSelect) se usa para el nombre de la función que implementa la lógica, desde el punto de vista de quien la define. Es lo que sigue haciendo GalleryContainer: define handleDelete porque es quien "maneja" el borrado.
